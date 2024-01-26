@@ -16,17 +16,30 @@ def log_list():
     print("Please choose which branch's logs you wish to open")
 
 
-def open_london():
+def read_london():
     with open(london, "r") as file:
         london_log = file.readlines()
-        print(london_log)
+        return london_log
+    
+
+def list_clean(list):
+    new_list = []
+    for i in list:
+        new_list.append(i.strip( ))
+        
+    for e , log in enumerate(new_list, 1): 
+        print(e,": ", log)  
+
+    
+
 
 
 main_menu = False
 menu_list = ["View shipping Log List",
-             "Search for a Shipping Log", "Exit Program"]
+             "Search for a Shipping Log", 
+             "Exit Program"]
 log_files = ["London.txt", "Manchester.txt", "Glasgow.txt"]
-london = "london.txt"
+london = "London.txt"
 
 
 while (not main_menu):
@@ -49,7 +62,9 @@ while (not main_menu):
         log_list()
         log_input = int(input("--> "))
         if log_input == 1:
-            open_london()
+            print_london = read_london()
+            clean = list_clean(print_london)
+            print(clean)
 
     elif main_input == 3:
         print("Exiting program, Goodbye")
