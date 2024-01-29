@@ -10,10 +10,20 @@ def main_screen():
 
 def log_list():
     print("-" * 75)
-    print("Branch List:")
+    print("\nBranch List:")
     for i, logs in enumerate(log_files, 1):
         print(i, ": ", logs.strip(".txt"))
     print("Please choose which branch's logs you wish to open")
+    print("Press 'n' to return to main menu")
+
+
+def list_dates(clean_list):
+    print("\nLondon Branch Logs: ")
+    for i, dates in enumerate(clean_list, 1):  
+        print(i,": ", dates[0], dates[2] )
+    print("Please choose which log you wish to open")
+    print("Enter 'n' to return to previous menu")    
+
 
 # merge input functions into one?
 def first_input():
@@ -89,13 +99,6 @@ def list_clean(list):
     return new_list  
 
 
-def list_dates(clean_list):
-    print("London Branch Logs: ")
-    for i, dates in enumerate(clean_list, 1):  
-        print(i,": ", dates[0], dates[2] )
-    print("Please choose which log you wish to open")
-    print("Enter 'n' to return to main menu")
-
 def print_log(open_log):
         open_log -= 1
         print(f"\nDATE: {clean[open_log][0]}\nSTATUS: {clean[open_log][1]}\nORDER NO: {clean[open_log][2]}\nBRANCH: {clean[open_log][3]}\nDEPARTMENT: {clean[open_log][4]}")
@@ -110,6 +113,7 @@ menu_list = ["View shipping Log List",
 log_files = ["London.txt", "Manchester.txt", "Glasgow.txt"]
 london = "London.txt" 
 sub_list = False
+logs = False
 # add variable to single function to select branch txt fille !!
 
 
@@ -119,35 +123,50 @@ sub_list = False
 
 
 
-
+# Main menu and an input function for the user to select an option 
+# sub_list var to res
 while (not main_menu):
     main_screen()
     main_input = first_input()
-    sub_list = False
 
     # add while loop to take back to branch menu??
-    if main_input == 1:
-        log_list()
-        log_input = branch_input()
 
-        if log_input == 1:
-            print_london = read_london()
-            clean = list_clean(print_london)
+    # If statement to check user input and move to the Branch List menu
+    # Another input function for user to select which Branch's log they 
+    # would like to acess
+    while (not logs):
 
-            while (not sub_list):
-                log_dates = list_dates(clean)
-                open_log = choose_log()
-                if open_log != "n":
-                    print_log(open_log)
-                    exit_log()                  
-                else:    
-                    sub_list = True
-                
+        if main_input == 1:
+            log_list()
+            log_input = branch_input()
 
-    elif main_input == 2:
-        pass       
+            # If statement used to select London branches logs
+            # sub_list variable used to reset while loop, so user can re enter.
+            if log_input == 1:
+                print_london = read_london()
+                clean = list_clean(print_london)
+                sub_list = False    
 
-    elif main_input == 3:
-        print("Exiting program, Goodbye")
-        main_menu == False
-        break
+                # While loop used to display the London branch logs, and give the user a choice
+                # of which log they wish to view in full
+                while (not sub_list):
+                    log_dates = list_dates(clean)
+                    open_log = choose_log()
+
+                    # usese the input stored in open_log to open the chosen log 
+                    if open_log != "n":
+                        print_log(open_log)
+                        exit_log() 
+
+                    # Allows user to exit from this menu (loop) and go back to main menu                 
+                    else:    
+                        sub_list = True
+                    
+
+        elif main_input == 2:
+            pass       
+
+        elif main_input == 3:
+            print("Exiting program, Goodbye")
+            main_menu == False
+            break
