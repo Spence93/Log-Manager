@@ -8,7 +8,7 @@ def main_screen():
     print("Please choose an option from the menu")
 
 
-def log_list():
+def branch_list():
     print("-" * 75)
     print("\nBranch List:")
     for i, logs in enumerate(log_files, 1):
@@ -17,7 +17,7 @@ def log_list():
     print("Press 'n' to return to main menu")
 
 
-def list_dates(clean_list):
+def list_logs(clean_list):
     print("\nLondon Branch Logs: ")
     for i, dates in enumerate(clean_list, 1):  
         print(i,": ", dates[0], dates[2] )
@@ -51,7 +51,9 @@ def branch_input():
                 break
             else:
                 print("Please enter a valid option")
-                continue
+                continue            
+        elif input_two.lower() == "n":
+            return input_two
         else:
             print("Please enter a valid option")
             continue
@@ -134,39 +136,72 @@ while (not main_menu):
     # If statement to check user input and move to the Branch List menu
     # Another input function for user to select which Branch's log they 
     # would like to acess
-    while (not logs):
-
-        if main_input == 1:
-            log_list()
+    if main_input == 1:
+        logs = False    
+        while (not logs):    
+            # This funciton prints out the branch list and we get the user choice for 
+            # the menu stored in log_input
+            branch_list()
             log_input = branch_input()
 
-            # If statement used to select London branches logs
-            # sub_list variable used to reset while loop, so user can re enter.
+            # Option 1 run opens and cleans the London.txt file
             if log_input == 1:
+                # reads the lond.txt file as readlines() - stores in list
                 print_london = read_london()
+                # cleans the list of unwanted chars and creates 2D list
                 clean = list_clean(print_london)
-                sub_list = False    
+                sub_list = False 
 
                 # While loop used to display the London branch logs, and give the user a choice
                 # of which log they wish to view in full
                 while (not sub_list):
-                    log_dates = list_dates(clean)
+                    log_dates = list_logs(clean)
                     open_log = choose_log()
 
-                    # usese the input stored in open_log to open the chosen log 
+                    # uses the input stored in open_log to open the chosen log 
                     if open_log != "n":
                         print_log(open_log)
-                        exit_log() 
-
-                    # Allows user to exit from this menu (loop) and go back to main menu                 
+                        exit_log()                  
                     else:    
                         sub_list = True
+
+
+
+            # New York option 2
+            elif log_input == 2:
+                pass
+
+
+
+            # Paris option 3
+            elif log_input == 3:
+                pass
+
+            # Exit
+            elif log_input == "n":
+                logs = True
+
+
+                # # While loop used to display the London branch logs, and give the user a choice
+                # # of which log they wish to view in full
+                # while (not sub_list):
+                #     log_dates = list_logs(clean)
+                #     open_log = choose_log()
+
+                #     # usese the input stored in open_log to open the chosen log 
+                #     if open_log != "n":
+                #         print_log(open_log)
+                #         exit_log() 
+
+                #     # Allows user to exit from this menu (loop) and go back to main menu                 
+                #     else:    
+                #         sub_list = True
                     
 
-        elif main_input == 2:
-            pass       
+    elif main_input == 2:
+        pass       
 
-        elif main_input == 3:
-            print("Exiting program, Goodbye")
-            main_menu == False
-            break
+    elif main_input == 3:
+        print("Exiting program, Goodbye")
+        main_menu == False
+        break
