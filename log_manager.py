@@ -19,15 +19,6 @@ def menu_inputs(menus, log_length, log_list):
     return u_input
 
 
-# def branch_list():
-#     print("-" * 75)
-#     print("\nBranch List:")
-#     for i, logs in enumerate(log_files, 1):
-#         print(i, ": ", logs.strip(".txt"))
-#     print("Please choose which branch's logs you wish to open")
-#     print("Press 'n' to return to main menu")
-
-
 def list_logs(branch, clean_list, log_length):
     while True:
         print("-" * 75)
@@ -47,26 +38,6 @@ def list_logs(branch, clean_list, log_length):
     return choose_log
 
 
-# def user_input_validation(prompt):
-#     while True:
-#         user_input = input(prompt)
-#         if user_input.isnumeric():
-#             user_input = int(user_input)
-#             if user_input > 0 <= len(log_files):  # changed 'and user_input'
-#                 break
-#             else:
-#                 print("Please enter a valid option")
-#                 continue
-#         elif user_input.lower() == "n":
-#             return user_input
-#         else:
-#             print("Please enter a valid option")
-#             continue
-#     return user_input
-
-# rename as now multiuse
-
-
 def read_log(city):
     with open(city, "r") as file:
         city_log = file.readlines()
@@ -81,7 +52,7 @@ def list_clean(list):
     return new_list
 
 
-def print_log(city_log):
+def print_log(city_log, clean_list):
     """
     The function `print_log` takes a city log as input and prints the corresponding date, status, order
     number, branch, and department.
@@ -90,8 +61,8 @@ def print_log(city_log):
     `clean` list that we want to print
     """
     city_log -= 1
-    print(f"\nDATE: {clean[city_log][0]}\nSTATUS: {clean[city_log][1]}\nORDER NO: {\
-          clean[city_log][2]}\nBRANCH: {clean[city_log][3]}\nDEPARTMENT: {clean[city_log][4]}")
+    print(f"\nDATE: {clean_list[city_log][0]}\nSTATUS: {clean_list[city_log][1]}\nORDER NO: {\
+          clean_list[city_log][2]}\nBRANCH: {clean_list[city_log][3]}\nDEPARTMENT: {clean_list[city_log][4]}")
 
 home_page = ("\nHyperion Enterprises") + ("\nShipping Log Manager")
 branch = "Branch List:"
@@ -110,7 +81,6 @@ while (not main_menu):
   
 
     if main_input == 1:
-
         while True:
             branch_input = menu_inputs(branch, log_files, branches)
             if branch_input == "n":
@@ -119,24 +89,17 @@ while (not main_menu):
 
             if branch_input == 1:
                 while True:
+                    # opens file to read and store as list
                     print_london = read_log(log_files[0])
                     # cleans the list of unwanted chars and creates 2D list
-                    clean = list_clean(print_london)
-                    # sub_list = False
-                    # while (not sub_list):
-                    log_input = list_logs("London", clean, log_files)
-
-                    # edit list logs function or menu_input function??!?!!
-                    # london_logs = user_input_validation("--> ") 
+                    clean_london = list_clean(print_london)
+                    log_input = list_logs("London", clean_london, log_files)
                 
                     if log_input != "n":
-                        print_log(log_input)
-                        if input("\nPress any key to return "):
-                            break
+                        print_log(log_input, clean_london)
+                        if input("\nPress 'n' to return "):
+                            continue       
                     break        
-                    
-                
-
 
             # New York option 2
             elif branch_input == 2:
