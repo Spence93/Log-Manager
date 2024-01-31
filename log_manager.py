@@ -1,46 +1,68 @@
-def main_screen():
-    print("-" * 75)
-    print("Hyperion Enterprises")
-    print("Shipping Log Manager")
-    print("-" * 75)
-    for i, menu in enumerate(menu_list, 1):
-        print(i, ": ", menu)
-    print("Please choose an option from the menu")
 
-
-def branch_list():
-    print("-" * 75)
-    print("\nBranch List:")
-    for i, logs in enumerate(log_files, 1):
-        print(i, ": ", logs.strip(".txt"))
-    print("Please choose which branch's logs you wish to open")
-    print("Press 'n' to return to main menu")
-
-
-def list_logs(clean_list):
-    print("\nLondon Branch Logs: ")
-    for i, dates in enumerate(clean_list, 1):
-        print(i, ": ", dates[0], dates[2])
-    print("Please choose which log you wish to open")
-    print("Enter 'n' to return to previous menu")
-
-
-def user_input_validation(prompt):
+# combined user input validation and menu's into one function.
+def menu_inputs(menus, log_length, log_list):
     while True:
-        user_input = input(prompt)
-        if user_input.isnumeric():
-            user_input = int(user_input)
-            if user_input > 0 <= len(log_files):  # changed 'and user_input'
-                break
-            else:
-                print("Please enter a valid option")
-                continue
-        elif user_input.lower() == "n":
-            return user_input
+        print("-" * 75)
+        print(menus)
+        print("-" * 75)        
+        for i, menu in enumerate(log_list, 1):
+            print(i, ": ",menu)
+        print("Press 'n' to return")    
+        u_input = input("Please choose an option from the menu\n --> ")
+        if u_input.isnumeric() and 0 < int(u_input) <= len(log_length):
+            return int(u_input)
+        elif u_input.lower() == "n":
+            break
         else:
-            print("Please enter a valid option")
+            print("enter a valid option")
             continue
-    return user_input
+    return u_input
+
+
+# def branch_list():
+#     print("-" * 75)
+#     print("\nBranch List:")
+#     for i, logs in enumerate(log_files, 1):
+#         print(i, ": ", logs.strip(".txt"))
+#     print("Please choose which branch's logs you wish to open")
+#     print("Press 'n' to return to main menu")
+
+
+def list_logs(branch, clean_list, log_length):
+    while True:
+        print("-" * 75)
+        print(f"{branch} Branch Logs: ")
+        print("-" * 75)
+        for i, dates in enumerate(clean_list, 1):
+            print(i, ": ", dates[0], dates[2])
+        print("Press 'n' to return")    
+        choose_log = input("Please choose which log you wish to open\n--> ")
+        if choose_log.isnumeric() and 0 < int(choose_log) <= len(log_length):
+            return int(choose_log)
+        elif choose_log.lower() == "n":
+            break
+        else:
+            print("enter a valid option")
+            continue
+    return choose_log
+
+
+# def user_input_validation(prompt):
+#     while True:
+#         user_input = input(prompt)
+#         if user_input.isnumeric():
+#             user_input = int(user_input)
+#             if user_input > 0 <= len(log_files):  # changed 'and user_input'
+#                 break
+#             else:
+#                 print("Please enter a valid option")
+#                 continue
+#         elif user_input.lower() == "n":
+#             return user_input
+#         else:
+#             print("Please enter a valid option")
+#             continue
+#     return user_input
 
 # rename as now multiuse
 
@@ -68,48 +90,53 @@ def print_log(city_log):
     `clean` list that we want to print
     """
     city_log -= 1
-    print(f"\nDATE: {clean[city_log][0]}\nSTATUS: {clean[city_log][1]}\nORDER NO: {
+    print(f"\nDATE: {clean[city_log][0]}\nSTATUS: {clean[city_log][1]}\nORDER NO: {\
           clean[city_log][2]}\nBRANCH: {clean[city_log][3]}\nDEPARTMENT: {clean[city_log][4]}")
 
-
+home_page = ("\nHyperion Enterprises") + ("\nShipping Log Manager")
+branch = "Branch List:"
 menu_list = ["View shipping Log List",
              "Search for a Shipping Log",
              "Exit Program"]
 log_files = ["London.txt", "Manchester.txt", "Glasgow.txt"]
+branches = ["London", "Manchester", "New York"]
 main_menu = False
 sub_list = False
 logs = False
 
 
-# Main menu and an input function for the user to select an option
 while (not main_menu):
-    main_screen()
-    main_input = user_input_validation("--> ")
+    main_input = menu_inputs(home_page, log_files, menu_list)
+  
 
     if main_input == 1:
 
-        logs = False
-        while (not logs):
-            branch_list()
-            branch_input = user_input_validation("--> ")
+        while True:
+            branch_input = menu_inputs(branch, log_files, branches)
+            if branch_input == "n":
+                break
+
 
             if branch_input == 1:
-                print_london = read_log(log_files[0])
-                # cleans the list of unwanted chars and creates 2D list
-                clean = list_clean(print_london)
+                while True:
+                    print_london = read_log(log_files[0])
+                    # cleans the list of unwanted chars and creates 2D list
+                    clean = list_clean(print_london)
+                    # sub_list = False
+                    # while (not sub_list):
+                    log_input = list_logs("London", clean, log_files)
 
-                sub_list = False
-                while (not sub_list):
-                    log_dates = list_logs(clean)
-                    london_logs = user_input_validation("--> ")
+                    # edit list logs function or menu_input function??!?!!
+                    # london_logs = user_input_validation("--> ") 
+                
+                    if log_input != "n":
+                        print_log(log_input)
+                        if input("\nPress any key to return "):
+                            break
+                    break        
+                    
+                
 
-                    # uses the input stored in london_logs to open the chosen log
-                    if london_logs != "n":
-                        print_log(london_logs)
-                        if input("Enter any key to close "):
-                            continue
-                    else:
-                        sub_list = True
 
             # New York option 2
             elif branch_input == 2:
@@ -121,7 +148,7 @@ while (not main_menu):
 
             # Exit
             elif branch_input == "n":
-                logs = True
+                pass# logs = True
 
     elif main_input == 2:
         pass
