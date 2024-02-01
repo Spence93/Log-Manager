@@ -70,17 +70,31 @@ def find_log (clean_list):
         temp_list = []
         temp_list.clear()
         user_find = input("Please enter the order number you wish to find:  ")
+        user_find = user_find.strip()
         if user_find.isnumeric() and len(user_find) == 6:
             for i in clean_list:
                 for x in i:
                     if user_find in x:
                         temp_list.append(i)
-                        break
-                    continue    
-            else:
-                print("Please enter a valid log number,\
-        must be 6 digits long")        
+                        break  
+                    continue
+            if temp_list == []:
+                print("Log not found")
+                continue
+                
+        else:
+            print("Please enter a valid log number,\
+    must be 6 digits long")
+            continue        
         return temp_list
+
+
+def print_search(search_list):
+    search_input = 0
+    print(f"\nDATE:\t\t {search_list[search_input][0]}\nSTATUS:\t\t{search_list[search_input][1]}\nORDER NO:\t{\
+          search_list[search_input][2]}\nBRANCH:\t\t{search_list[search_input][3]}\nDEPARTMENT:\t{search_list[search_input][4]}")
+
+    
 
 home_page = ("\nHyperion Enterprises") + ("\nShipping Log Manager")
 branch = "Branch List:"
@@ -88,7 +102,7 @@ menu_list = ["View shipping Log List",
              "Search for a Shipping Log",
              "Exit Program"]
 log_files = ["London.txt", "Manchester.txt", "Glasgow.txt"]
-branches = ["London", "Manchester", "New York"]
+branches = ["London", "Manchester", "Glasgow"]
 main_menu = False
 sub_list = False
 logs = False
@@ -132,13 +146,18 @@ while (not main_menu):
                 pass# logs = True
 
     elif main_input == 2:
-        search_input = menu_inputs(branch, log_files, branches)
-        if search_input == 1:
-            search_branch = read_log(log_files[search_input -1])
-            search_clean = list_clean(search_branch)
-            search_result = find_log(search_clean)
-            print_log(search_input, search_clean)
-        break
+
+        # change function to take search_input and find relevent file in one 
+        # function?
+        s_input = menu_inputs(branch, log_files, branches)
+        # if s_input == 1:
+        search_branch = read_log(log_files[s_input -1])
+        search_clean = list_clean(search_branch)
+        search_result = find_log(search_clean)
+        print_search(search_result)
+        if input("\nPress 'n' to return "):
+            continue  
+        
 
     elif main_input == 3:
         print("Exiting program, Goodbye")
