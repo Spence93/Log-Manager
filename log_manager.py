@@ -64,6 +64,24 @@ def print_log(city_log, clean_list):
     print(f"\nDATE: {clean_list[city_log][0]}\nSTATUS: {clean_list[city_log][1]}\nORDER NO: {\
           clean_list[city_log][2]}\nBRANCH: {clean_list[city_log][3]}\nDEPARTMENT: {clean_list[city_log][4]}")
 
+
+def find_log (clean_list):
+    while True:
+        temp_list = []
+        temp_list.clear()
+        user_find = input("Please enter the order number you wish to find:  ")
+        if user_find.isnumeric() and len(user_find) == 6:
+            for i in clean_list:
+                for x in i:
+                    if user_find in x:
+                        temp_list.append(i)
+                        break
+                    continue    
+            else:
+                print("Please enter a valid log number,\
+        must be 6 digits long")        
+        return temp_list
+
 home_page = ("\nHyperion Enterprises") + ("\nShipping Log Manager")
 branch = "Branch List:"
 menu_list = ["View shipping Log List",
@@ -114,7 +132,13 @@ while (not main_menu):
                 pass# logs = True
 
     elif main_input == 2:
-        pass
+        search_input = menu_inputs(branch, log_files, branches)
+        if search_input == 1:
+            search_branch = read_log(log_files[search_input -1])
+            search_clean = list_clean(search_branch)
+            search_result = find_log(search_clean)
+            print_log(search_input, search_clean)
+        break
 
     elif main_input == 3:
         print("Exiting program, Goodbye")
