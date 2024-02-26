@@ -1,6 +1,25 @@
 
 # combined user input validation and menu's into one function.
 def menu_inputs(menus, log_length, log_list):
+    """
+    The function `menu_inputs` displays a menu, lists options, and prompts the user to choose an option
+    or return.
+
+    :param menus: The `menus` parameter in the `menu_inputs` function is a string that represents the
+    menu options available for the user to choose from. It is displayed at the beginning of the menu
+    interface to guide the user on available options
+    :param log_length: The `log_length` parameter in the `menu_inputs` function is likely intended to
+    represent the total number of items in the `log_list`. It is used to validate the user input when
+    choosing an option from the menu. The function checks if the user input is a numeric value within
+    the range of
+    :param log_list: The `log_list` parameter in the `menu_inputs` function seems to be a list of items
+    that will be displayed as options in the menu. Each item in the `log_list` will be printed with a
+    corresponding index number for the user to choose from
+    :return: The function `menu_inputs` returns the user's selected option from the menu as an integer
+    if it is a valid numeric option within the range of log_length. If the user inputs 'n', the function
+    breaks out of the loop. If the user inputs an invalid option, an error message is displayed, and the
+    loop continues until a valid option is chosen. If the user input is neither a valid
+    """
     print("-" * 75)
     print(menus)
     print("-" * 75)
@@ -20,6 +39,24 @@ def menu_inputs(menus, log_length, log_list):
 
 
 def list_logs(branch, clean_list, log_length):
+    """
+    The function `list_logs` displays a list of logs for a specific branch and allows the user to choose
+    a log to open or return.
+
+    :param branch: The `branch` parameter in the `list_logs` function seems to represent the branch name
+    for which the logs are being displayed. It is used to specify the branch whose logs will be shown in
+    the output
+    :param clean_list: The `clean_list` parameter seems to be a list of lists where each inner list
+    contains information about logs. Each inner list seems to have at least three elements, with the
+    first element being the date and the third element being the log message
+    :param log_length: The `log_length` parameter seems to represent the total number of logs available
+    in the `clean_list`. It is used to validate the user input when choosing a log to open. The function
+    ensures that the user input is a valid numeric option within the range of available logs or 'n' to
+    return
+    :return: The function `list_logs` returns the index of the log chosen by the user if a valid numeric
+    option is selected, or it returns the string "n" if the user chooses to return. If an invalid option
+    is entered, the function will continue prompting the user until a valid option is selected.
+    """
     while True:
         print("-" * 75)
         print(f"{branch} Branch Logs: ")
@@ -39,12 +76,33 @@ def list_logs(branch, clean_list, log_length):
 
 
 def read_log(city):
+    """
+    The function `read_log` reads the contents of a log file for a specified city and returns the log
+    entries as a list of strings.
+
+    :param city: The `read_log` function takes a parameter `city`, which is the name of the log file to
+    be read. The function opens the specified log file in read mode, reads all the lines from the file,
+    and returns them as a list of strings
+    :return: The function `read_log(city)` reads the contents of a log file for a specific city and
+    returns a list of strings, where each string represents a line in the log file.
+    """
     with open(city, "r") as file:
         city_log = file.readlines()
         return city_log
 
 
 def list_clean(list):
+    """
+    The function `list_clean` takes a list of strings, removes leading and trailing whitespaces from
+    each string, and splits each string by the "|" character to create a new list of lists.
+
+    :param list: The `list_clean` function takes a list as input and cleans each element by removing any
+    leading or trailing whitespaces. It then splits each element by the "|" character and appends the
+    resulting list to a new list. Finally, it returns the new list with cleaned and split elements
+    :return: The function `list_clean` takes a list as input, strips any leading or trailing whitespace
+    from each element, splits each element by the "|" character, and returns a new list containing the
+    split elements.
+    """
     new_list = []
     for i in list:
         x = i.strip()
@@ -53,6 +111,16 @@ def list_clean(list):
 
 
 def find_log(clean_list):
+    """
+    The function `find_log` takes a list of lists as input, prompts the user to enter an order number to
+    find within the list, and returns the sublist(s) containing the order number if found.
+
+    :param clean_list: The function `find_log` takes a list of lists called `clean_list` as input. Each
+    inner list in `clean_list` represents a log entry, and the function allows the user to search for a
+    specific log entry by entering a 6-digit order number
+    :return: The function `find_log` returns either the user input if it is 'n' (indicating the user
+    wants to return) or a list of logs that contain the order number entered by the user.
+    """
     while True:
         temp_list = []
         print("-" * 75)
@@ -94,6 +162,14 @@ def print_log(city_log, clean_list):
 
 
 def print_search(search_list):
+    """
+    The function `print_search` takes a list of search results and prints specific information based on
+    the first element of the list.
+
+    :param search_list: The `print_search` function takes a `search_list` as input, which seems to be a
+    list of lists where each inner list contains information related to a search result. The function
+    then prints out specific elements from the first inner list in a formatted way
+    """
     search_input = 0
     print(f"""\nDATE:\t\t {search_list[search_input][0]}\nSTATUS:\t\t{search_list[search_input][1]}\nORDER NO:\t{
           search_list[search_input][2]}\nBRANCH:\t\t{search_list[search_input][3]}\nDEPARTMENT:\t{search_list[search_input][4]}""")
